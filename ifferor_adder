@@ -1,0 +1,18 @@
+Option Explicit
+
+Sub ifferror_adder()
+
+    Dim cell As Range 'used for iteration through each cell in a selected range
+    
+    'iterate through each cell in the selected region that has a formula
+    For Each cell In Selection.SpecialCells(xlCellTypeFormulas, 23)
+        
+        'If the formula does not already start with an IFERROR formula, add it
+        If InStr(cell.Formula, "=IFERROR") <> 1 Then
+            'Need to to take everything right of the existing equal sign to avoid double ='s
+            cell.Formula = "=IFERROR(" & Right(cell.Formula, Len(cell.Formula) - 1) & ",0)"
+        End If
+        
+    Next cell
+    
+End Sub
