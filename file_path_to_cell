@@ -1,0 +1,15 @@
+Option Explicit
+
+Sub file_path_to_cell()
+    
+    'As long as the current cell is empty, grab the file path
+    If ActiveCell.Value2 = vbNullString Then
+    
+      'In the active cell, add a hyperling to the activeworkbook. This link can be shared with others to access the file.
+      ActiveCell.Hyperlinks.Add ActiveCell, ActiveWorkbook.FullName
+    
+      'Optional: Copy the cell right away for faster pasting
+      ActiveCell.Copy
+   End If
+   
+End Sub
