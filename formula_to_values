@@ -1,0 +1,16 @@
+Option Explcit
+
+Sub formula_to_values()
+	dim cell as range 'Used to iterate through each cell in the selected range 
+  
+	'Iterate through each cell in the selection
+  for each cell in selection
+		'Used as a quicker way to declare statements below. Where there is a . with nothing infront of it, it refers to the cell variable
+  	with cell
+    	'If the current cell has a formula, make the value of the cell the value of the cell (this breaks the formula)
+      if .hasformula then
+        .value2 = .value2
+      end if 
+    end with
+  next cell
+end sub
