@@ -1,16 +1,19 @@
-Option Explcit
+Option Explicit
 
 Sub formula_to_values()
-	dim cell as range 'Used to iterate through each cell in the selected range 
+
+    Dim cell As Range 'Used to iterate through each cell in the selected range
   
-	'Iterate through each cell in the selection
-  for each cell in selection
-		'Used as a quicker way to declare statements below. Where there is a . with nothing infront of it, it refers to the cell variable
-  	with cell
-    	'If the current cell has a formula, make the value of the cell the value of the cell (this breaks the formula)
-      if .hasformula then
-        .value2 = .value2
-      end if 
-    end with
-  next cell
-end sub
+    'Iterate through each cell in the selection
+    For Each cell In Selection
+        'Used as a quicker way to declare statements below. Where there is a . with nothing infront of it, it refers to the cell variable
+        With cell
+            'If the current cell has a formula and is not hidden (don't want to break formula of filtered or hidden cells)
+            If .HasFormula And Not .EntireRow.Hidden And Not .EntireColumn.Hidden Then
+                'Make the value of the cell the value of the cell (this breaks the formula)
+                .Value2 = .Value2
+            End If
+        End With
+    Next cell
+    
+End Sub
