@@ -1,19 +1,31 @@
 Option Explicit
 
 Sub rename_current_file()
-
+    
+    Dim app As Object: Set app = Application 'A shorter way to refernce the Application object
     Dim old_name As String: old_name = ActiveWorkbook.Name 'Initialize the old_name to the current name of the workbook
     Dim current_location As String: current_location = ActiveWorkbook.Path 'Initialize the location where the current file resides
-    Dim new_name As String: new_name = InputBox("Enter the new name of this file", "Rename File", old_name) 'Prompt the user for a new file name
-    Dim app As Object: Set app = Application 'A quicker way to reference the Application object
     
-    ActiveWorkbook.SaveAs app.DefaultFilePath & new_name 'Save as the current file to the default file location
+    'Check the the current_location is not blank (a workbook that has never been saved)
+    If current_location = vbNullString Then
+        MsgBox "The file must be saved somewhere first!", vbCritical, "ERRROR!"
+        Exit Sub
+    End If
+    
+    'Get the length of the file extension of the current file. This macro can not change the file type of the workbook
+    Dim file_extension As String: file_extension = Right(old_name, Len(old_name) - InStrRev(old_name, ".") + 1)
+    
+    Dim new_name As String: new_name = InputBox("Enter the new name of this file", "Rename File", Left(old_name, Len(old_name) - Len(file_extension))) 'Prompt the user for a new file name
+    
+    If new_name = vbNullString Then Exit Sub 'Quit the macro if the users hit cancel when entering a new name
+    
+    
+    ActiveWorkbook.SaveAs app.DefaultFilePath & new_name & file_extension 'Save as the current file to the default file location
     
     app.DisplayAlerts = False 'Turn of alerts for when the file will be deleted
     Kill current_location & app.PathSeparator & old_name 'WARNING!!! This will delete the old file
-    app.DisplayAlerts = True ' Turn alerts back on
+    app.DisplayAlerts = True 'Turn alerts back on
     
-    ActiveWorkbook.SaveAs current_location & app.PathSeparator & new_name 'Save as the file with the new name to the location where we started
+    ActiveWorkbook.SaveAs current_location & app.PathSeparator & new_name & file_extension 'Save as the file with the new name to the location where we started
 
 End Sub
-
