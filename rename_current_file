@@ -1,0 +1,20 @@
+Option Explicit
+
+Sub rename_current_file()
+
+    Dim old_name As String: old_name = ActiveWorkbook.Name 'Initialize the old_name to the current name of the workbook
+    Dim current_location As String: current_location = ActiveWorkbook.Path 'Initialize the location where the current file resides
+    Dim file_delimitor As String:
+    Dim new_name As String: new_name = InputBox("Enter the new name of this file", "Rename File", old_name) 'Prompt the user for a new file name
+    Dim app As Object: Set app = Application 'A quicker way to reference the Application object
+    
+    ActiveWorkbook.SaveAs app.DefaultFilePath & new_name 'Save as the current file to the default file location
+    
+    app.DisplayAlerts = False 'Turn of alerts for when the file will be deleted
+    Kill current_location & app.PathSeparator & old_name 'WARNING!!! This will delete the old file
+    app.DisplayAlerts = True ' Turn alerts back on
+    
+    ActiveWorkbook.SaveAs current_location & app.PathSeparator & new_name 'Save as the file with the new name to the location where we started
+
+End Sub
+
