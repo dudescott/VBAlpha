@@ -4,7 +4,6 @@ Sub rename_current_file()
 
     Dim old_name As String: old_name = ActiveWorkbook.Name 'Initialize the old_name to the current name of the workbook
     Dim current_location As String: current_location = ActiveWorkbook.Path 'Initialize the location where the current file resides
-    Dim file_delimitor As String:
     Dim new_name As String: new_name = InputBox("Enter the new name of this file", "Rename File", old_name) 'Prompt the user for a new file name
     Dim app As Object: Set app = Application 'A quicker way to reference the Application object
     
