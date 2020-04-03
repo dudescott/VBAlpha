@@ -1,0 +1,56 @@
+Option Explicit
+
+Sub alphabetize_sheets()
+    
+    'Track the index position of each sheet in the sheet_list
+    Dim index As Integer: index = 1
+    
+    'Keep track of where sheet should be moved to
+    Dim move_index As Integer: move_index = 1
+    
+    'Reference the a sheet that needs to be swapped
+    Dim move_me As Worksheet: Set move_me = Sheets(move_index)
+
+    
+    'Hold the position in which the sheet should be moved to
+    Dim move_to As Integer: move_to = 1
+    
+    'Keep track of the number of sheets left to sort
+    Dim sorted As Boolean: sorted = False
+    
+    'While there are still sheets left to sort
+    While Not sorted
+        'As long as Sheets(index + 1) is a valid sheet reference, try to sort it
+        If index + 1 <= ActiveWorkbook.Sheets.Count Then
+            'Do a comparison of the sheet names at index and index + 1
+            If StrComp(LCase(Sheets(index).Name), LCase(Sheets(index + 1).Name)) = 1 Then
+                For move_index = 1 To ActiveWorkbook.Sheets.Count
+                     If StrComp(LCase(Sheets(move_index).Name), LCase(Sheets(index + 1).Name)) = 1 Then
+                        Sheets(index + 1).Move before:=Sheets(move_to) 'Move the sheet at index + 1 to the move_to location
+                    End If
+                    move_to = move_to + 1 'Increment move_to by 1
+                Next move_index
+                index = 1 'Set index back to 1
+                move_to = 1 'Set move_to back to 1
+            Else
+                index = index + 1 'Increment index if the previous was already sorted
+            End If
+        Else
+        
+            sorted = True 'set sorted equal to true, this will be set to false if a sheet is not sorted
+            'Iterate through each sheet to check if it is sorted
+            For index = 1 To ActiveWorkbook.Sheets.Count - 1
+                'Do a comparison of the sheet names at index and index + 1, also test that sorted is true, else keep the false value
+                If StrComp(LCase(Sheets(index).Name), LCase(Sheets(index + 1).Name)) <> 1 And sorted = True Then
+                    sorted = True
+                Else
+                    sorted = False
+                End If
+            Next index
+            
+            index = 1 'Set index back
+        End If
+        
+    Wend
+ 
+End Sub
