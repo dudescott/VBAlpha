@@ -1,0 +1,27 @@
+Option Explicit
+
+Sub go_home()
+    
+    Dim sheet As Worksheet 'Used to iterate through each sheet in the workbook
+    Dim home As Worksheet 'Used to bring the user back to the tab the workbook was run on
+    
+    'If the activecell is already A1, the macro will bring the usuer to the first tab once the macro is complete
+    '   else, the user will be brought back to the current sheet that the macro was run. This will allow the user
+    '   to run the macro twice to be brought to the first tab if they choose
+    If ActiveCell.Address = "$A$1" Then
+        Set home = sheets(1)
+    Else
+        Set home = ActiveSheet
+    End If
+    
+    'Iterate through every sheet in the workbook and go to cell A1
+    For Each sheet In ActiveWorkbook.sheets
+        'If the sheet is visible go to cell A1
+        If sheet.Visible = True Then
+            Application.Goto sheet.[A1] 'Scroll to and select cell A1
+        End If
+    Next sheet
+    
+    home.Activate 'Go to the home sheet
+
+End Sub
