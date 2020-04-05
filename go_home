@@ -13,14 +13,16 @@ Sub go_home()
     Else
         Set home = ActiveSheet
     End If
-    
-    'Iterate through every sheet in the workbook and go to cell A1
-    For Each sheet In ActiveWorkbook.sheets
-        'If the sheet is visible go to cell A1
-        If sheet.Visible = True Then
-            Application.Goto sheet.[A1] 'Scroll to and select cell A1
-        End If
-    Next sheet
+    'An error will be raised if the a sheet is protected and cell A1 can't be selected, handle this error and skip the sheet
+    On Error Resume Next
+        'Iterate through every sheet in the workbook and go to cell A1
+        For Each sheet In ActiveWorkbook.sheets
+            'If the sheet is visible go to cell A1
+            If sheet.Visible = True Then
+                Application.Goto sheet.[A1] 'Scroll to and select cell A1
+            End If
+        Next sheet
+    On Error GoTo 0 'End error handler
     
     home.Activate 'Go to the home sheet
 
