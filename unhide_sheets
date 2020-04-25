@@ -1,0 +1,11 @@
+Option Explicit
+
+Sub unhide_sheets()
+    Dim sheet As Worksheet 'Used for sheet iteration
+    
+    'Iterate through each sheet in the workbook
+    For Each sheet In ActiveWorkbook.Sheets
+        If Not sheet.Visible Then sheet.Visible = xlSheetVisible 'If the sheet is not visible then unhide it
+    Next sheet
+    
+End Sub
